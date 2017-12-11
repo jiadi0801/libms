@@ -1,0 +1,30 @@
+{
+  "name": "libms",
+  "version": "1.0.0",
+  "description": "图书管理系统",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">= 6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiadi0801/libms.git"
+  },
+  "author": "jiadi0801",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jiadi0801/libms/issues"
+  },
+  "homepage": "https://github.com/jiadi0801/libms#readme",
+  "dependencies": {
+    "hapi": "16.6.2",
+    "moment": "^2.19.4",
+    "mysql2": "^1.5.1",
+    "sequelize": "^4.27.0",
+    "vue": "^2.5.9",
+    "vue-server-renderer": "^2.5.9"
+  }
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="">
+<meta name="description" content="图书借阅后台">
+<script src="//misc.360buyimg.com/jdf/lib/jquery-1.6.4.js"></script>
+<title>JDC前端图书管理后台</title>
+<style>
+.md {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 0 auto;
+  width: 990px;
+}
+
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.md h1, .md h1 {
+  font-size: 32px;
+}
+
+.md h2 {
+  font-size: 22px;
+}
+
+.md h3 {
+  font-size: 18px;
+}
+
+.md h4 {
+  font-size: 16px;
+}
+
+.md h5 {
+  font-size: 14px;
+}
+
+.md h6 {
+  font-size: 12px;
+}
+
+/* pre code */
+.md code,
+.md pre,
+.md tt {
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 0.857em;
+}
+
+.md p code,
+.md li code,
+.md pre {
+  background-color: #f9f9f9;
+  border: 1px solid #e1e1e8;
+  margin: 1em 0;
+  overflow: auto;
+  padding: 9px 14px;
+  border-radius: 4px;
+}
+
+.md pre pre {
+  border: none;
+}
+
+.md pre code {
+  border: none;
+}
+
+.md p code,
+.md li code {
+  margin: 1em 0;
+  padding: 1px 4px;
+}
+
+/* md */
+/*.md{float:left;width:900px;}*/
+.md ul {
+  padding-left: 2em;
+}
+
+.md ul li {
+  list-style-type: disc;
+}
+
+.md ul ul {
+  padding-left: 2em;
+}
+
+.md h2 {
+  border-bottom: 1px solid #eee;
+}
+
+.md table {
+  margin: 15px 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.md table th,
+.md table td {
+  border: 1px solid #ddd;
+  padding: 3px 6px;
+}
+
+.md table tr:nth-child(2n) {
+  background-color: #f9f9f9;
+}
+.jdc-book-club {
+  width: 1280px;
+}
+
+.jdc-book-club table {
+  margin: 0 auto;
+}
+
+.jdc-book-club td:nth-child(2) {
+  width: 160px;
+}
+
+.jdc-book-club td:nth-child(2) a {
+  color: #C81623;
+}
+
+.jdc-book-club td:nth-child(4) {
+  width: 110px;
+  text-align: center;
+}
+
+.jdc-book-club td:nth-child(7) {
+  text-align: center;
+  min-width: 60px;
+}
+
+.jdc-book-club td:nth-child(8) {
+  min-width: 70px;
+}
+
+.jdc-book-club td:last-child {
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="md jdc-book-club" id="app"></div>
+<script src="./target/vendor.js"></script>
+<script src="./target/build.js"></script>
+
+
+
+<div class="md jdc-book-club">
+<h1>JDC前端读书会</h1>
+<h2>借阅须知</h2>
+<p>为方便大家借书，我们需要对图书的借阅进行登记，如需借阅请找登记员刘佳（liujia573）登记一下。^_^</p>
+<p>每本书的借阅日期为半个月，如需续借请通知登记员。</p>
+<p>请大家在阅读的时候避免涂画。</p>
+<p>欢迎每位同学把阅读心得、学到的知识组织起来分享给大家。</p>
+<h2>书目</h2>
+<div id="tablelist"></div>
+</div>
+<script>
+    var host = 'http://192.168.182.85:21080';
+    jQuery.support.cors = true;
+    $.ajax({
+        type: 'get',
+        url: host + '/booklist',
+        success: function (data) {
+            $('#tablelist').html(data)
+        },
+        error: function (err) {
+            for (key in err) {
+                console.log(key, err[key])
+            }
+        }
+    });
+</script>
+</body>
+</html>

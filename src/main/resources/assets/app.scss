@@ -1,0 +1,153 @@
+.add-book {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.table-book {
+    width: 100%;
+}
+
+.footer {
+    text-align: center;
+    margin: 20px auto;
+}
+
+// markdown style
+.md {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0 auto;
+    width: 990px;
+  }
+  
+  .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .md h1, .md h1 {
+    font-size: 32px;
+  }
+  
+  .md h2 {
+    font-size: 22px;
+  }
+  
+  .md h3 {
+    font-size: 18px;
+  }
+  
+  .md h4 {
+    font-size: 16px;
+  }
+  
+  .md h5 {
+    font-size: 14px;
+  }
+  
+  .md h6 {
+    font-size: 12px;
+  }
+  
+  /* pre code */
+  .md code,
+  .md pre,
+  .md tt {
+    font-family: Monaco, Consolas, "Lucida Console", monospace;
+    font-size: 0.857em;
+  }
+  
+  .md p code,
+  .md li code,
+  .md pre {
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e8;
+    margin: 1em 0;
+    overflow: auto;
+    padding: 9px 14px;
+    border-radius: 4px;
+  }
+  
+  .md pre pre {
+    border: none;
+  }
+  
+  .md pre code {
+    border: none;
+  }
+  
+  .md p code,
+  .md li code {
+    margin: 1em 0;
+    padding: 1px 4px;
+  }
+  
+  /* md */
+  /*.md{float:left;width:900px;}*/
+  .md ul {
+    padding-left: 2em;
+  }
+  
+  .md ul li {
+    list-style-type: disc;
+  }
+  
+  .md ul ul {
+    padding-left: 2em;
+  }
+  
+  .md h2 {
+    border-bottom: 1px solid #eee;
+  }
+  
+  .md table {
+    margin: 15px 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  .md table th,
+  .md table td {
+    border: 1px solid #ddd;
+    padding: 3px 6px;
+  }
+  
+  .md table tr:nth-child(2n) {
+    background-color: #f9f9f9;
+  }
+  .jdc-book-club {
+    width: 1280px;
+  }
+  
+  .jdc-book-club table {
+    margin: 0 auto;
+  }
+  
+  .jdc-book-club td:nth-child(2) {
+    width: 160px;
+  }
+  
+  .jdc-book-club td:nth-child(2) a {
+    color: #C81623;
+  }
+  
+  .jdc-book-club td:nth-child(4) {
+    width: 110px;
+    text-align: center;
+  }
+  
+  .jdc-book-club td:nth-child(7) {
+    text-align: center;
+    min-width: 60px;
+  }
+  
+  .jdc-book-club td:nth-child(8) {
+    min-width: 70px;
+  }
+  
+  .jdc-book-club td:last-child {
+    text-align: center;
+  }

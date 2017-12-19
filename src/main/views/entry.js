@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Hello from './book_list.jsx'
+import App from './App.jsx'
+
+import appcss from '../resources/assets/app.scss'
+
 ReactDOM.render(
-    <Hello />,
+    <App />,
     document.getElementById('app')
 );
-console.log('abad')

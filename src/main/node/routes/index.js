@@ -9,6 +9,24 @@ const ResWrap = require('../system').ResWrap;
 
 const renderer = require('vue-server-renderer').createRenderer();
 
+// 静态文件
+server.route({
+    method: 'GET',
+    path: '/web/{filename*}',
+    handler: function (request, reply) {
+        let filename = request.params.filename;
+        let contenttype = request.headers.accept.split(',')[0];
+        let filepath = path.resolve(__dirname, `../../webapp`, filename);
+        fs.readFile(filepath, (err, data) => {
+            if (err) {
+                reply().code(404);
+                return;
+            }
+            reply(data.toString()).type(contenttype);
+        })
+    }
+});
+
 /**
  * 当前借阅列表
  */
@@ -37,7 +55,20 @@ server.route({
                     head: ['编号','书名','作者','出版社','ISBN','入库时间','借阅人','erp','借阅日期'],
                     books: results,
                 },
-                template: fs.readFileSync(path.resolve(__dirname,'../../views/list.vue')).toString()
+                template: `<table>
+                    <tr><th v-for="h in head" :key="h">{{h}}</th></tr>
+                    <tr v-for="(book,idx) in books" :key="idx">
+                        <td>{{book.num}}</td>
+                        <td><a :href="book.link" target="_blank">{{book.name}}</a></td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.press}}</td>
+                        <td>{{book.isbn}}</td>
+                        <td>{{book.store_time}}</td>
+                        <td>{{book.borrower}}</td>
+                        <td>{{book.erp}}</td>
+                        <td>{{book.bor_time}}</td>
+                    </tr>
+                </table>`
             });
             renderer.renderToString(app, (err, html) => {
                 if (err) {
@@ -58,6 +89,29 @@ server.route({
 
 
 /**
+ * 当前借阅列表API
+ */
+server.route({
+    method: 'GET',
+    path: '/borrow/list',
+    handler: function (req, reply) {
+        models.sequelize.query(`SELECT num, name, author, press, isbn, link, store_time, borrower, erp, bor_time 
+        from fe_bookinfo LEFT JOIN 
+        (SELECT borrower, fe_borrowhistory.bor_time, erp, fe_borrowhistory.book_id
+        from fe_borrowhistory, (select book_id, max(bor_time) as bor_time from fe_borrowhistory WHERE back_time IS NULL group by book_id ) t
+        WHERE fe_borrowhistory.book_id = t.book_id AND fe_borrowhistory.bor_time = t.bor_time) filterHistory
+        ON fe_bookinfo.id = filterHistory.book_id ORDER BY num;`, {type: models.sequelize.QueryTypes.SELECT})
+        .then(results => {
+            reply(ResWrap('书籍借阅列表', true, results)).type('application/json');
+        })
+        .catch(err => {
+            console.log(err)
+            reply('');
+        });
+    }
+})
+
+/**
  * 新建借阅记录
  * query: {
  *  name, erp, num
@@ -67,9 +121,10 @@ server.route({
     method: ['POST'],
     path: '/borrow/new',
     handler: function (req, reply) {
-        let name = req.query.name,
-            erp = req.query.erp,
-            num = req.query.book_num;
+        let data = req.query.num ? req.query : req.payload;
+        let name = data.name,
+            erp = data.erp,
+            num = data.num;
         
         models.BookInfo.findOne({
             attributes: ['id', 'num', 'name'],
@@ -112,9 +167,10 @@ server.route({
     method: 'PUT',
     path: '/borrow/back',
     handler: function (req, reply) {
-        let name = req.query.name,
-            bor_time = req.query.bor_time,
-            num = req.query.book_num;
+        let data = req.query.num ? req.query : req.payload;
+        let name = data.name,
+            bor_time = data.bor_time,
+            num = data.num;
         models.BookInfo.findOne({
             attributes: ['id', 'num', 'name'],
             where: {
@@ -125,10 +181,12 @@ server.route({
                 models.BorHis.findOne({
                     where: {
                         borrower: name,
-                        bor_time: new Date(bor_time),
                         book_id: record.get('id'),
                         back_time: null
-                    }
+                    },
+                    order: [
+                        ['bor_time', 'DESC']
+                    ],
                 })
                 .then(his => {
                     if (his) {

@@ -7,11 +7,11 @@ module.exports = {
     cache: true,
     entry: {
         build: './src/main/views/entry.js',
-        vendor: ['react', 'react-dom']
+        vendor: ['react', 'react-dom', 'axios']
     },
     output: {
         path: path.resolve(__dirname, './src/main/webapp/target'),
-        publicPath: process.env.NODE_ENV === 'production' ? '/libms/target' : '/src/main/webapp/target',
+        publicPath: process.env.NODE_ENV === 'production' ? '/web/target' : '/src/main/webapp/target',
         filename: '[name].js'
     },
     module: {
@@ -68,7 +68,11 @@ module.exports = {
     },
     devtool: '#eval-source-map',
     plugins: [
-        new ExtractTextPlugin("[name].css")
+        new ExtractTextPlugin("[name].css"),
+        // 抽取公共部分放到vendor
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor']
+        }),
     ]
 }
 
